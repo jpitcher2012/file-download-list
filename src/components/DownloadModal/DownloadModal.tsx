@@ -16,9 +16,13 @@ export default function DownloadModal(props: DownloadModalProps){
     return(
         <div className='modal-overlay'>
             <div className='modal-content'>
+
+                {/* Header */}
                 <h1 className='modal-header'>
                     Downloaded Files
                 </h1>
+
+                {/* List of selected/downloaded files */}
                 <div className='modal-body'>
                     <ul>
                         {props.files.map((file) => (
@@ -29,6 +33,8 @@ export default function DownloadModal(props: DownloadModalProps){
                         ))}
                     </ul>
                 </div>
+
+                {/* Footer with button that closes modal */}
                 <div className='modal-footer'>
                     <button className='modal-btn' onClick={() => props.closeModal()}>
                         OK

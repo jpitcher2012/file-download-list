@@ -15,7 +15,10 @@ export function FileDownloadHeader(props: FileDownloadHeaderProps){
     return(
         <thead>
             <tr className='download-controls'>
+
                 <th colSpan={6}>
+
+                    {/* Select All checkbox */}
                     <input 
                         type='checkbox'
                         className='select-all-checkbox'
@@ -34,10 +37,12 @@ export function FileDownloadHeader(props: FileDownloadHeaderProps){
                         onClick={() => props.clickSelectAll()}
                     />
                 
+                    {/* Number of files selected */}
                     <span className='num-selected'>
                         {props.numSelected > 0 ? `Selected ${props.numSelected}` : 'None Selected'}
                     </span>
 
+                    {/* Button to download files; disabled if no files are selected */}
                     <span>
                         <button className='download-btn' disabled={props.numSelected === 0} onClick={() => props.clickDownload()}>
                             <FiDownload className='download-icon' size={21}/>
@@ -46,6 +51,8 @@ export function FileDownloadHeader(props: FileDownloadHeaderProps){
                     </span>
                 </th>
             </tr>
+
+            {/* Field headers */}
             <tr className='field-headers'>
                 <th></th>
                 <th>Name</th>

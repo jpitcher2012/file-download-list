@@ -19,7 +19,10 @@ export function FileDownloadRow(props: FileDownloadRowProps){
     let clickable = false;
     let rowClass = 'body-row';
     
+    // Capitalize the first letter of the status
     let status = props.file.status.charAt(0).toUpperCase() + props.file.status.slice(1);
+
+    // The user can only select the file if the status is Available
     if(status === 'Available'){
         clickable = true;
         rowClass += ' clickable'
@@ -32,15 +35,28 @@ export function FileDownloadRow(props: FileDownloadRowProps){
     return(
         <tr className={rowClass} onClick={clickable ? () => props.clickFile() : undefined}>
             <td className='checkbox-field'>
-                <input type='checkbox' className='file-checkbox' checked={props.selected} disabled={!clickable}></input>
+                <input 
+                    type='checkbox'
+                    className='file-checkbox'
+                    checked={props.selected}
+                    disabled={!clickable}
+                />
             </td>
-            <td className='name-field'>{props.file.name}</td>
-            <td className='device-field'>{props.file.device}</td>
-            <td className='path-field'>{props.file.path}</td>
+            <td className='name-field'>
+                {props.file.name}
+            </td>
+            <td className='device-field'>
+                {props.file.device}
+            </td>
+            <td className='path-field'>
+                {props.file.path}
+            </td>
             <td className='status-icon'>
                 {status === 'Available' && <FaCircle style={{color: '#86CE3C'}}/>}
             </td>
-            <td className='status-field'>{status}</td>
+            <td className='status-field'>
+                {status}
+            </td>
         </tr>
     )
 }

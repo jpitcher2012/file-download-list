@@ -10,15 +10,29 @@ interface FileDownloadListProps {
 
 export default function FileDownloadList(props: FileDownloadListProps){
 
+    // List of the selected files' file paths (used as a unique identifier)
     let [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+
+    // The current state of the Select All checkbox
+    // Possible values: checked, unchecked, indeterminate, disabled
     let [selectAllState, setSelectAllState] = useState<SelectAllStates>('unchecked');
+
+    // Whether or not to display the download modal (after the user clicks Download Selected)
     let [showModal, setShowModal] = useState<boolean>(false);
 
+    // The user can only select files with status = available
+    // If no files are available, the Select All checkbox is disabled
     const numSelectable = props.data.filter(file => file.status === 'available').length;
     if(numSelectable === 0 && selectAllState !== 'disabled'){
         setSelectAllState('disabled');
     }
 
+    // This is called when the user clicks an individual file
+    // It adds/removes the file from the selectedFiles list
+    // It also updates the state of the Select All checkbox:
+    //   - unchecked if no files are selected
+    //   - checked if all files are selected
+    //   - indeterminate if some but not all of the files are selected
     function clickFile(path: string){
         if(!selectedFiles.includes(path)) {
             setSelectAllState(selectedFiles.length === numSelectable - 1 ? 'checked' : 'indeterminate');
@@ -33,6 +47,9 @@ export default function FileDownloadList(props: FileDownloadListProps){
         }
     }
 
+    // This is called when the user clicks the Select All checkbox
+    // If all files are already selected, it deselects all
+    // Otherwise, it selects all the files with status = available
     function clickSelectAll(){
         if(selectAllState === 'checked'){
             setSelectAllState('unchecked');
@@ -44,10 +61,12 @@ export default function FileDownloadList(props: FileDownloadListProps){
         }
     }
 
+    // This is called to open the modal when the user clicks the download button
     function clickDownload(){
         setShowModal(true);
     }
 
+    // This is called when the user clicks the OK button to close the modal
     function closeModal(){
         setShowModal(false);
         setSelectAllState('unchecked');
@@ -65,7 +84,8 @@ export default function FileDownloadList(props: FileDownloadListProps){
             <tbody>
                 {
                     props.data.length > 0 
-                    ? 
+                    ?
+                    /* Details for each file in the payload */
                     props.data.map((file) => (
                         <FileDownloadRow
                             key={file.path}
@@ -75,6 +95,7 @@ export default function FileDownloadList(props: FileDownloadListProps){
                         />
                     ))
                     :
+                    /* Default text to display if no files were returned */
                     <tr>
                         <td colSpan={6} className='placeholder'>
                             No files found
@@ -84,6 +105,7 @@ export default function FileDownloadList(props: FileDownloadListProps){
                 }
             </tbody>
 
+            {/* Modal to display when the user clicks the download button */}
             <Modal
                 showModal={showModal}
                 files={props.data.filter((file) => selectedFiles.includes(file.path))}
