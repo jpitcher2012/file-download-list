@@ -2,7 +2,7 @@
     font-size: large;
 }
 
-.select-all-checkbox {
+th:has(.select-all-checkbox) {
     padding: 5px;
 }
 

@@ -13,11 +13,12 @@ export type SelectAllStates = 'checked' | 'unchecked' | 'indeterminate' | 'disab
 export function FileDownloadHeader(props: FileDownloadHeaderProps){
 
     return(
-        <>
+        <thead>
             <tr className='download-controls'>
-                <th className='select-all-checkbox' colSpan={6}>
+                <th colSpan={6}>
                     <input 
                         type='checkbox'
+                        className='select-all-checkbox'
                         checked={props.selectAllState === 'checked'}
                         disabled={props.selectAllState === 'disabled'}
                         ref={(input)=>{
@@ -53,6 +54,6 @@ export function FileDownloadHeader(props: FileDownloadHeaderProps){
                 <th></th>
                 <th>Status</th>
             </tr>
-        </>
+        </thead>
     )
 }

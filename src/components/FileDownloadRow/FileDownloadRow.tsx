@@ -17,22 +17,22 @@ export type FileDetails = {
 export function FileDownloadRow(props: FileDownloadRowProps){
 
     let clickable = false;
-    let className = '';
+    let rowClass = 'body-row';
     
     let status = props.file.status.charAt(0).toUpperCase() + props.file.status.slice(1);
     if(status === 'Available'){
         clickable = true;
-        className = 'clickable'
+        rowClass += ' clickable'
 
         if(props.selected){
-            className += ' selected';
+            rowClass += ' selected';
         }
     }
     
     return(
-        <tr className={className} onClick={clickable ? () => props.clickFile() : undefined}>
+        <tr className={rowClass} onClick={clickable ? () => props.clickFile() : undefined}>
             <td className='checkbox-field'>
-                <input type='checkbox' checked={props.selected} disabled={!clickable}></input>
+                <input type='checkbox' className='file-checkbox' checked={props.selected} disabled={!clickable}></input>
             </td>
             <td className='name-field'>{props.file.name}</td>
             <td className='device-field'>{props.file.device}</td>

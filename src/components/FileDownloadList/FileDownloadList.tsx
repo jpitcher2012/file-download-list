@@ -14,14 +14,14 @@ export default function FileDownloadList(props: FileDownloadListProps){
     let [selectAllState, setSelectAllState] = useState<SelectAllStates>('unchecked');
     let [showModal, setShowModal] = useState<boolean>(false);
 
-    const NUM_SELECTABLE = props.data.filter(file => file.status === 'available').length;
-    if(NUM_SELECTABLE === 0 && selectAllState !== 'disabled'){
+    const numSelectable = props.data.filter(file => file.status === 'available').length;
+    if(numSelectable === 0 && selectAllState !== 'disabled'){
         setSelectAllState('disabled');
     }
 
     function clickFile(path: string){
         if(!selectedFiles.includes(path)) {
-            setSelectAllState(selectedFiles.length === NUM_SELECTABLE - 1 ? 'checked' : 'indeterminate');
+            setSelectAllState(selectedFiles.length === numSelectable - 1 ? 'checked' : 'indeterminate');
             setSelectedFiles((selectedFiles) => [...selectedFiles, path]);
         }
         else {
@@ -62,26 +62,27 @@ export default function FileDownloadList(props: FileDownloadListProps){
                 clickSelectAll={() => clickSelectAll()}
                 clickDownload={() => clickDownload()}
             />
-            
-            {
-                props.data.length > 0 
-                ? 
-                props.data.map((file) => (
-                    <FileDownloadRow
-                        key={file.path}
-                        file={file}
-                        selected={selectedFiles.includes(file.path)}
-                        clickFile={() => clickFile(file.path)}
-                    />
-                ))
-                :
-                <tr>
-                    <td colSpan={6} className='placeholder'>
-                        No files found
-                    </td>
-                </tr>
-            
-            }
+            <tbody>
+                {
+                    props.data.length > 0 
+                    ? 
+                    props.data.map((file) => (
+                        <FileDownloadRow
+                            key={file.path}
+                            file={file}
+                            selected={selectedFiles.includes(file.path)}
+                            clickFile={() => clickFile(file.path)}
+                        />
+                    ))
+                    :
+                    <tr>
+                        <td colSpan={6} className='placeholder'>
+                            No files found
+                        </td>
+                    </tr>
+                
+                }
+            </tbody>
 
             <Modal
                 showModal={showModal}
