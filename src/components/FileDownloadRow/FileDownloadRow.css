@@ -1,0 +1,36 @@
+tr.clickable {
+    cursor: pointer;
+}
+
+tr.clickable:hover:not(.selected) {
+    background-color: #e5e5e5;
+}
+
+tr.selected {
+    background-color: #dddddd;
+}
+
+td.status-icon {
+    padding: none;
+    text-align: right;
+}
+
+td.checkbox-field {
+    width: 7%;
+}
+
+td.name-field {
+    width:15%;
+}
+
+td.device-field {
+    width: 15%;
+}
+
+td.path-field {
+    width: 30%;
+}
+
+td.status-field {
+    width: 12%
+}

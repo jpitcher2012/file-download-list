@@ -1,0 +1,42 @@
+.download-controls {
+    font-size: large;
+}
+
+.select-all-checkbox {
+    padding: 5px;
+}
+
+.num-selected {
+    display: inline-block;
+    text-align: center;
+    min-width: 125px;
+    margin-left: 10px;
+}
+
+.download-btn {
+    margin-left: 20px;
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 5px;
+	font: inherit;
+	outline: inherit;
+}
+
+.download-btn:disabled {
+    color: gray;
+    cursor: default;
+}
+
+.download-icon {
+    position: relative;
+    top: 3px;
+}
+
+.download-btn-text {
+    margin-left: 5px;
+}
+
+.field-headers th {
+    padding: 10px 5px;
+}
