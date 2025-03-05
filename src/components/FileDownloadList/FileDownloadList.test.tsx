@@ -26,19 +26,20 @@ describe("FileDownloadList", () => {
         expect(path2).toBeInTheDocument();
     });
 
-    test("renders file data if not empty", () => {
+    test("renders the field names", () => {
         render(<FileDownloadList data={[file1, file2]}/>);
-        
-        const device1 = screen.getByText(file1.device);
-        const path1 = screen.getByText(file1.path);
-        const device2 = screen.getByText(file2.device);
-        const path2 = screen.getByText(file2.path);
 
-        expect(device1).toBeInTheDocument();
-        expect(path1).toBeInTheDocument();
-        expect(device2).toBeInTheDocument();
-        expect(path2).toBeInTheDocument();
+        const name = screen.getByText("Name");
+        const device = screen.getByText("Device");
+        const path = screen.getByText("Path");
+        const status = screen.getByText("Status");
+
+        expect(name).toBeInTheDocument();
+        expect(device).toBeInTheDocument();
+        expect(path).toBeInTheDocument();
+        expect(status).toBeInTheDocument();
     });
+
 
     test("updates the number of selected files and when the user clicks a file", () => {
         const { container } = render(<FileDownloadList data={[file1, file2]}/>);

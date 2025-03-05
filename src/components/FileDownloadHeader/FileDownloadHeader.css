@@ -1,14 +1,13 @@
-.download-controls {
+.header {
     font-size: large;
-}
-
-th:has(.select-all-checkbox) {
     padding: 5px;
+    border: 1px solid #bbbbbb;
+    border-bottom: 0;
 }
 
 .num-selected {
     display: inline-block;
-    text-align: center;
+    text-align: left;
     min-width: 125px;
     margin-left: 10px;
 }
@@ -35,8 +34,4 @@ th:has(.select-all-checkbox) {
 
 .download-btn-text {
     margin-left: 5px;
-}
-
-.field-headers th {
-    padding: 10px 5px;
 }

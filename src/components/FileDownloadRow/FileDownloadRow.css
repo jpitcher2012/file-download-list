@@ -10,27 +10,31 @@ tr.selected {
     background-color: #dddddd;
 }
 
-td.status-icon {
-    padding: none;
-    text-align: right;
-}
-
-td.checkbox-field {
-    width: 7%;
-}
-
 td.name-field {
-    width:15%;
+    width: 10vw;
+    padding-left: 35px;
+    white-space: nowrap;
+}
+
+span:has(.file-checkbox){
+    position: relative;
+    left: -30px;
 }
 
 td.device-field {
-    width: 15%;
+    width: 8vw;
 }
 
 td.path-field {
-    width: 30%;
+    width: 30vw;
+    padding-right: 20px;
 }
 
 td.status-field {
-    width: 12%
+    width: 6vw;
+}
+
+.status-icon {
+    padding-right: 5px;
+    margin-left: -19px;
 }

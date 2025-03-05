@@ -13,54 +13,42 @@ export type SelectAllStates = 'checked' | 'unchecked' | 'indeterminate' | 'disab
 export function FileDownloadHeader(props: FileDownloadHeaderProps){
 
     return(
-        <thead>
-            <tr className='download-controls'>
+        <div className='header'>
 
-                <th colSpan={6}>
+            {/* Select All checkbox */}
+            <input
+                type='checkbox'
+                className='select-all-checkbox'
+                checked={props.selectAllState === 'checked'}
+                disabled={props.selectAllState === 'disabled'}
+                onClick={() => props.clickSelectAll()}
+                onChange={(e) => {}}
+                ref={(input) => {
+                    if (input) {
+                        if (props.selectAllState === 'indeterminate') {
+                            input.indeterminate = true;
+                        }
+                        else {
+                            input.indeterminate = false;
+                        }
+                    }
+                }}
+                aria-label='Select All'
+            />
 
-                    {/* Select All checkbox */}
-                    <input 
-                        type='checkbox'
-                        className='select-all-checkbox'
-                        checked={props.selectAllState === 'checked'}
-                        disabled={props.selectAllState === 'disabled'}
-                        ref={(input)=>{
-                            if(input){
-                                if(props.selectAllState === 'indeterminate'){
-                                    input.indeterminate = true;
-                                }
-                                else{
-                                    input.indeterminate = false;
-                                }
-                            }
-                        }}
-                        onClick={() => props.clickSelectAll()}
-                    />
-                
-                    {/* Number of files selected */}
-                    <span className='num-selected'>
-                        {props.numSelected > 0 ? `Selected ${props.numSelected}` : 'None Selected'}
-                    </span>
+            {/* Number of files selected */}
+            <span className='num-selected'>
+                {props.numSelected > 0 ? `Selected ${props.numSelected}` : 'None Selected'}
+            </span>
 
-                    {/* Button to download files; disabled if no files are selected */}
-                    <span>
-                        <button className='download-btn' disabled={props.numSelected === 0} onClick={() => props.clickDownload()}>
-                            <FiDownload className='download-icon' size={21}/>
-                            <span className='download-btn-text'>Download Selected</span>
-                        </button>
-                    </span>
-                </th>
-            </tr>
-
-            {/* Field headers */}
-            <tr className='field-headers'>
-                <th></th>
-                <th>Name</th>
-                <th>Device</th>
-                <th>Path</th>
-                <th></th>
-                <th>Status</th>
-            </tr>
-        </thead>
+            {/* Button to download files; disabled if no files are selected */}
+            <span>
+                <button className='download-btn' disabled={props.numSelected === 0} onClick={() => props.clickDownload()}>
+                    <FiDownload className='download-icon' size={21} />
+                    <span className='download-btn-text'>Download Selected</span>
+                </button>
+            </span>
+        </div>
     )
+    
 }

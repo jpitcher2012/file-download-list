@@ -1,5 +1,5 @@
 import './FileDownloadList.css';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FileDownloadHeader, SelectAllStates } from '../FileDownloadHeader/FileDownloadHeader';
 import { FileDownloadRow, FileDetails } from '../FileDownloadRow/FileDownloadRow';
 import Modal from '../DownloadModal/DownloadModal';
@@ -26,6 +26,8 @@ export default function FileDownloadList(props: FileDownloadListProps){
     if(numSelectable === 0 && selectAllState !== 'disabled'){
         setSelectAllState('disabled');
     }
+
+    const modalElement = useRef<HTMLInputElement>(null);
 
     // This is called when the user clicks an individual file
     // It adds/removes the file from the selectedFiles list
@@ -64,6 +66,11 @@ export default function FileDownloadList(props: FileDownloadListProps){
     // This is called to open the modal when the user clicks the download button
     function clickDownload(){
         setShowModal(true);
+        setTimeout(() => {
+            if(modalElement.current){
+                modalElement.current.focus();
+            }
+        })
     }
 
     // This is called when the user clicks the OK button to close the modal
@@ -74,43 +81,56 @@ export default function FileDownloadList(props: FileDownloadListProps){
     }
 
     return(
-        <table>
+        <div className='wrapper'>
             <FileDownloadHeader 
                 numSelected={selectedFiles.length}
                 selectAllState={selectAllState}
                 clickSelectAll={() => clickSelectAll()}
                 clickDownload={() => clickDownload()}
             />
-            <tbody>
-                {
-                    props.data.length > 0 
-                    ?
-                    /* Details for each file in the payload */
-                    props.data.map((file) => (
-                        <FileDownloadRow
-                            key={file.path}
-                            file={file}
-                            selected={selectedFiles.includes(file.path)}
-                            clickFile={() => clickFile(file.path)}
-                        />
-                    ))
-                    :
-                    /* Default text to display if no files were returned */
-                    <tr>
-                        <td colSpan={6} className='placeholder'>
-                            No files found
-                        </td>
+            <table>
+                {/* Field headers */}
+                <thead>
+                    <tr className='field-headers'>
+                        <th className='name-header'>Name</th>
+                        <th className='device-header'>Device</th>
+                        <th className='path-header'>Path</th>
+                        <th className='status-header'>Status</th>
                     </tr>
-                
-                }
-            </tbody>
+                </thead>
+                <tbody>
+                    {
+                        props.data.length > 0 
+                        ?
+                        /* Details for each file in the payload */
+                        props.data.map((file) => (
+                            <FileDownloadRow
+                                key={file.path}
+                                file={file}
+                                selected={selectedFiles.includes(file.path)}
+                                clickFile={() => clickFile(file.path)}
+                            />
+                        ))
+                        :
+                        /* Default text to display if no files were returned */
+                        <tr>
+                            <td colSpan={4} className='placeholder'>
+                                No files found
+                            </td>
+                        </tr>
+                    
+                    }
+                </tbody>
+            </table>
 
+            
             {/* Modal to display when the user clicks the download button */}
             <Modal
                 showModal={showModal}
                 files={props.data.filter((file) => selectedFiles.includes(file.path))}
                 closeModal={() => closeModal()}
+                ref={modalElement}
             />
-        </table>
+        </div>
     )
 }

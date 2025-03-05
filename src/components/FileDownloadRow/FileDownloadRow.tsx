@@ -34,16 +34,20 @@ export function FileDownloadRow(props: FileDownloadRowProps){
     
     return(
         <tr className={rowClass} onClick={clickable ? () => props.clickFile() : undefined}>
-            <td className='checkbox-field'>
-                <input 
-                    type='checkbox'
-                    className='file-checkbox'
-                    checked={props.selected}
-                    disabled={!clickable}
-                />
-            </td>
             <td className='name-field'>
-                {props.file.name}
+                <span>
+                    <input 
+                        type='checkbox'
+                        className='file-checkbox'
+                        checked={props.selected}
+                        disabled={!clickable}
+                        onChange={e => {}}
+                        aria-label='Select File'
+                    />
+                </span>
+                <span>
+                    {props.file.name}
+                </span>
             </td>
             <td className='device-field'>
                 {props.file.device}
@@ -51,11 +55,15 @@ export function FileDownloadRow(props: FileDownloadRowProps){
             <td className='path-field'>
                 {props.file.path}
             </td>
-            <td className='status-icon'>
-                {status === 'Available' && <FaCircle style={{color: '#86CE3C'}}/>}
-            </td>
             <td className='status-field'>
-                {status}
+                {status === 'Available' && 
+                    <span className='status-icon'>
+                        <FaCircle size={14} style={{color: '#86CE3C'}}/>
+                    </span>
+                }
+                <span className='status-text'>
+                    {status}
+                </span>
             </td>
         </tr>
     )

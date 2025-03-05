@@ -1,8 +1,10 @@
-table {
-    border-collapse: collapse;
+.wrapper {
     background-color: #FDFDFD;
     color: #212121;
-    margin: 10px;
+}
+
+table {
+    border-collapse: collapse;
 }
 
 tr {
@@ -12,21 +14,27 @@ tr {
 
 th {
     font-weight: normal;
+    font-size: medium;
     text-align: left;
+    padding: 10px;
 }
 
 td {
     font-size: small;
     text-align: left;
-    padding: 5px;
+    padding: 5px 10px;
 }
 
-input, button:not(:disabled) {
+input:not(:disabled), button:not(:disabled) {
     cursor: pointer;
 }
 
 input[type='checkbox'] {
     margin: 10px;
+}
+
+th.name-header {
+    padding-left: 66px;
 }
 
 .placeholder {
