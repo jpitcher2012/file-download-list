@@ -1,7 +1,7 @@
-import './FileDownloadHeader.css';
+import './DownloadListHeader.css';
 import { FiDownload } from 'react-icons/fi';
 
-interface FileDownloadHeaderProps {
+interface DownloadListHeaderProps {
     numSelected: number;
     selectAllState: SelectAllStates;
     clickSelectAll: () => void;
@@ -10,7 +10,7 @@ interface FileDownloadHeaderProps {
 
 export type SelectAllStates = 'checked' | 'unchecked' | 'indeterminate' | 'disabled';
 
-export function FileDownloadHeader(props: FileDownloadHeaderProps){
+export function DownloadListHeader(props: DownloadListHeaderProps){
 
     return(
         <div className='header'>
@@ -36,12 +36,12 @@ export function FileDownloadHeader(props: FileDownloadHeaderProps){
                 aria-label='Select All'
             />
 
-            {/* Number of files selected */}
+            {/* Number of items selected */}
             <span className='num-selected'>
                 {props.numSelected > 0 ? `Selected ${props.numSelected}` : 'None Selected'}
             </span>
 
-            {/* Button to download files; disabled if no files are selected */}
+            {/* Button to download items; disabled if no items are selected */}
             <span>
                 <button className='download-btn' disabled={props.numSelected === 0} onClick={() => props.clickDownload()}>
                     <FiDownload className='download-icon' size={21} />

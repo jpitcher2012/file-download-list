@@ -1,14 +1,14 @@
-import './DownloadModal.css';
-import { FileDetails } from '../FileDownloadRow/FileDownloadRow';
+import './ListModal.css';
 
-interface DownloadModalProps {
+interface ListModalProps {
     showModal: boolean;
-    files: Array<FileDetails>;
+    header: string;
+    list: Array<string>;
     ref: any;
     closeModal: () => void;
 }
 
-export default function DownloadModal(props: DownloadModalProps){
+export default function ListModal(props: ListModalProps){
 
     if(!props.showModal){
         return null;
@@ -19,23 +19,22 @@ export default function DownloadModal(props: DownloadModalProps){
             className='modal-overlay'
             role='dialog'
             aria-modal='true'
-            aria-labelledby='download-modal-header'
-            aria-describedby='download-modal-body'
+            aria-labelledby='modal-header'
+            aria-describedby='modal-body'
         >
             <div className='modal-content'>
 
                 {/* Header */}
-                <h1 id='download-modal-header'>
-                    Downloaded Files
+                <h1 id='modal-header'>
+                    {props.header}
                 </h1>
 
-                {/* List of selected/downloaded files */}
-                <div id='download-modal-body'>
+                {/* List of items */}
+                <div id='modal-body'>
                     <ul>
-                        {props.files.map((file) => (
-                            <li key={file.path}>
-                                <span>{file.device}</span>
-                                <span>{file.path}</span>
+                        {props.list.map((item, index) => (
+                            <li key={index}>
+                                {item}
                             </li>
                         ))}
                     </ul>

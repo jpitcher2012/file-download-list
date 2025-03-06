@@ -1,0 +1,21 @@
+tr.clickable {
+    cursor: pointer;
+}
+
+tr.clickable:hover:not(.selected) {
+    background-color: #e5e5e5;
+}
+
+tr.selected {
+    background-color: #dddddd;
+}
+
+td.first-field {
+    padding-left: 35px;
+    white-space: nowrap;
+}
+
+span:has(.item-checkbox){
+    position: relative;
+    left: -30px;
+}

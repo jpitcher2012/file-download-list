@@ -1,42 +1,26 @@
-.wrapper {
-    background-color: #FDFDFD;
-    color: #212121;
+td.name-field {
+    width: 10vw;
 }
 
-table {
-    border-collapse: collapse;
+td.device-field {
+    width: 8vw;
 }
 
-tr {
-    border: 1px solid #bbbbbb;
-    cursor: default;
+td.path-field {
+    width: 30vw;
+    padding-right: 20px;
 }
 
-th {
-    font-weight: normal;
-    font-size: medium;
-    text-align: left;
-    padding: 10px;
+td.status-field {
+    width: 6vw;
 }
 
-td {
-    font-size: small;
-    text-align: left;
-    padding: 5px 10px;
-}
-
-input:not(:disabled), button:not(:disabled) {
-    cursor: pointer;
-}
-
-input[type='checkbox'] {
-    margin: 10px;
-}
-
-th.name-header {
-    padding-left: 66px;
-}
-
-.placeholder {
-    padding: 100px 200px;
+.available-icon {
+    height: 15px;
+    width: 15px;
+    background-color: #86CE3C;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: -19px;
 }

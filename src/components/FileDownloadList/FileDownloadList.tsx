@@ -1,136 +1,80 @@
 import './FileDownloadList.css';
-import { useState, useRef } from 'react';
-import { FileDownloadHeader, SelectAllStates } from '../FileDownloadHeader/FileDownloadHeader';
-import { FileDownloadRow, FileDetails } from '../FileDownloadRow/FileDownloadRow';
-import Modal from '../DownloadModal/DownloadModal';
+import { useEffect } from 'react';
+import { DownloadItem, DownloadItemField } from '../DownloadListRow/DownloadListRow';
+import DownloadList from '../DownloadList/DownloadList';
+
 
 interface FileDownloadListProps {
-    data: Array<FileDetails>
+    data: Array<any>
 }
 
 export default function FileDownloadList(props: FileDownloadListProps){
 
-    // List of the selected files' file paths (used as a unique identifier)
-    let [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+    const FIELDS: Array<DownloadItemField> = [
+        {
+            name: 'name',
+            label: 'Name',
+            class: 'name-field'
+        },
+        {
+            name: 'device',
+            label: 'Device',
+            class: 'device-field'
+        },
+        {
+            name: 'path',
+            label: 'Path',
+            class: 'path-field'
+        },
+        {
+            name: 'status',
+            label: 'Status',
+            class: 'status-field'
+        }
+    ]
 
-    // The current state of the Select All checkbox
-    // Possible values: checked, unchecked, indeterminate, disabled
-    let [selectAllState, setSelectAllState] = useState<SelectAllStates>('unchecked');
+    let files: Array<DownloadItem> = [];
+    for(let file of props.data){
+        
+        // Capitalize the first letter of the status
+        let status = file.status.charAt(0).toUpperCase() + file.status.slice(1);
+        file.status = status;
 
-    // Whether or not to display the download modal (after the user clicks Download Selected)
-    let [showModal, setShowModal] = useState<boolean>(false);
+        // The user can only select the file if the status is Available
+        let disabled = status !== 'Available';
 
-    // The user can only select files with status = available
-    // If no files are available, the Select All checkbox is disabled
-    const numSelectable = props.data.filter(file => file.status === 'available').length;
-    if(numSelectable === 0 && selectAllState !== 'disabled'){
-        setSelectAllState('disabled');
+        // Display the device & path in the modal
+        let shortDesc = `${file.device} - ${file.path}`;
+
+        files.push({
+            id: file.path,
+            shortDesc: shortDesc,
+            disabled: disabled,
+            properties: file
+        });
     }
 
-    const modalElement = useRef<HTMLInputElement>(null);
+    // Insert the icons for Available status
+    useEffect(() => {
 
-    // This is called when the user clicks an individual file
-    // It adds/removes the file from the selectedFiles list
-    // It also updates the state of the Select All checkbox:
-    //   - unchecked if no files are selected
-    //   - checked if all files are selected
-    //   - indeterminate if some but not all of the files are selected
-    function clickFile(path: string){
-        if(!selectedFiles.includes(path)) {
-            setSelectAllState(selectedFiles.length === numSelectable - 1 ? 'checked' : 'indeterminate');
-            setSelectedFiles((selectedFiles) => [...selectedFiles, path]);
+        // If icons have already been added, don't add them again
+        let icons = document.getElementsByClassName('available-icon');
+        if(icons.length > 0){
+            return;
         }
-        else {
-            setSelectAllState(selectedFiles.length === 1 ? 'unchecked' : 'indeterminate');
-            setSelectedFiles((selectedFiles) => {
-                const updatedSelectedFiles = selectedFiles.filter((key) => key !== path);
-                return updatedSelectedFiles;
-            });
-        }
-    }
 
-    // This is called when the user clicks the Select All checkbox
-    // If all files are already selected, it deselects all
-    // Otherwise, it selects all the files with status = available
-    function clickSelectAll(){
-        if(selectAllState === 'checked'){
-            setSelectAllState('unchecked');
-            setSelectedFiles([]);
-        }
-        else{
-            setSelectAllState('checked');
-            setSelectedFiles(props.data.filter(file => file.status === 'available').map(file => file.path));
-        }
-    }
+        let statusElements = document.getElementsByClassName('status-field');
 
-    // This is called to open the modal when the user clicks the download button
-    function clickDownload(){
-        setShowModal(true);
-        setTimeout(() => {
-            if(modalElement.current){
-                modalElement.current.focus();
+        for(let i = 0; i < statusElements.length; i++){
+            let element = statusElements[i];
+            if(element.innerHTML === 'Available'){
+                element.insertAdjacentHTML('afterbegin', '<span class="available-icon"></span>');
             }
-        })
-    }
+        }
+    
+      }, []);
 
-    // This is called when the user clicks the OK button to close the modal
-    function closeModal(){
-        setShowModal(false);
-        setSelectAllState('unchecked');
-        setSelectedFiles([]);
-    }
-
-    return(
-        <div className='wrapper'>
-            <FileDownloadHeader 
-                numSelected={selectedFiles.length}
-                selectAllState={selectAllState}
-                clickSelectAll={() => clickSelectAll()}
-                clickDownload={() => clickDownload()}
-            />
-            <table>
-                {/* Field headers */}
-                <thead>
-                    <tr className='field-headers'>
-                        <th className='name-header'>Name</th>
-                        <th className='device-header'>Device</th>
-                        <th className='path-header'>Path</th>
-                        <th className='status-header'>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        props.data.length > 0 
-                        ?
-                        /* Details for each file in the payload */
-                        props.data.map((file) => (
-                            <FileDownloadRow
-                                key={file.path}
-                                file={file}
-                                selected={selectedFiles.includes(file.path)}
-                                clickFile={() => clickFile(file.path)}
-                            />
-                        ))
-                        :
-                        /* Default text to display if no files were returned */
-                        <tr>
-                            <td colSpan={4} className='placeholder'>
-                                No files found
-                            </td>
-                        </tr>
-                    
-                    }
-                </tbody>
-            </table>
-
-            
-            {/* Modal to display when the user clicks the download button */}
-            <Modal
-                showModal={showModal}
-                files={props.data.filter((file) => selectedFiles.includes(file.path))}
-                closeModal={() => closeModal()}
-                ref={modalElement}
-            />
-        </div>
+    return (
+        <DownloadList items={files} fields={FIELDS} />
     )
 }
