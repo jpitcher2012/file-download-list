@@ -58,7 +58,7 @@ export default function FileDownloadList(props: FileDownloadListProps){
     useEffect(() => {
 
         // If icons have already been added, don't add them again
-        let icons = document.getElementsByClassName('available-icon');
+        let icons = document.getElementsByClassName('status-indicator');
         if(icons.length > 0){
             return;
         }
@@ -68,7 +68,7 @@ export default function FileDownloadList(props: FileDownloadListProps){
         for(let i = 0; i < statusElements.length; i++){
             let element = statusElements[i];
             if(element.innerHTML === 'Available'){
-                element.insertAdjacentHTML('afterbegin', '<span class="available-icon"></span>');
+                element.insertAdjacentHTML('afterbegin', '<span class="status-indicator"></span>');
             }
         }
     

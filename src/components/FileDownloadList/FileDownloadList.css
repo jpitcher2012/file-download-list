@@ -15,7 +15,7 @@ td.status-field {
     width: 6vw;
 }
 
-.available-icon {
+.status-indicator {
     height: 15px;
     width: 15px;
     background-color: #86CE3C;
